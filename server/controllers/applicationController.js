@@ -77,3 +77,16 @@ exports.updateApplication = async (req, res) => {
     console.error(err.message);
   }
 };
+
+exports.deleteApplication = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteApplication = await pool.query(
+      "DELETE FROM applications WHERE id = $1",
+      [id]
+    );
+    res.json("Application Deleted!");
+  } catch (err) {
+    console.error(err.message);
+  }
+};
