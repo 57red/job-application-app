@@ -1,5 +1,12 @@
+// components
+import ApplicationsList from "./components/ApplicationsList";
+
 function App() {
-  return <></>;
+  return (
+    <>
+      <ApplicationsList />
+    </>
+  );
 }
 
 export default App;
