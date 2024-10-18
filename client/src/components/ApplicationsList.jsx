@@ -6,6 +6,22 @@ import AddApplication from "./AddApplication";
 function ApplicationsList() {
   const [applications, setApplications] = useState([]);
 
+  const deleteApplication = async (id) => {
+    try {
+      const deletedID = id;
+      const response = await fetch(
+        `http://localhost:5000/applications/${deletedID}`,
+        { method: "DELETE" }
+      );
+      setApplications((prevApplications) =>
+        prevApplications.filter((application) => application.id !== id)
+      );
+      window.location = "/";
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const getAllApplications = async () => {
     try {
       const response = await fetch("http://localhost:5000/applications");
@@ -43,7 +59,12 @@ function ApplicationsList() {
                   </ul>
                   <div className="card-body">
                     <button className="btn btn-warning me-2">Edit</button>
-                    <button className="btn btn-danger">Delete</button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => deleteApplication(application.id)}
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
