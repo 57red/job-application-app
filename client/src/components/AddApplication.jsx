@@ -5,7 +5,7 @@ function AddApplication() {
     company_name: "",
     job_title: "",
     date_applied: "",
-    status: "",
+    status: "applied", // Default to "applied"
     notes: "",
   });
 
@@ -32,9 +32,24 @@ function AddApplication() {
         headers: { "Content-type": "application/json" },
         body: JSON.stringify(body),
       });
-      window.location = "/";
+      const responseData = await response.json(); // Parse the response
+
+      if (response.ok) {
+        console.log("Application added successfully", responseData);
+        // Reset form fields
+        setApplication({
+          company_name: "",
+          job_title: "",
+          date_applied: "",
+          status: "applied", // Reset to default status
+          notes: "",
+        });
+        window.location = "/";
+      } else {
+        console.error("Failed to add application:", responseData);
+      }
     } catch (err) {
-      console.error(err.message);
+      console.error("Error:", err.message);
     }
   };
 
@@ -60,8 +75,8 @@ function AddApplication() {
             </div>
 
             <div className="modal-body">
-              <form>
-                <label for="company_name">Company Name:</label>
+              <form onSubmit={(e) => addApplication(e)}>
+                <label htmlFor="company_name">Company Name:</label>
                 <br />
                 <input
                   type="text"
@@ -71,11 +86,12 @@ function AddApplication() {
                   required
                   className="form-control"
                   onChange={(e) => handleChange(e)}
+                  value={application.company_name}
                 />
                 <br />
                 <br />
 
-                <label for="job_title">Job Title:</label>
+                <label htmlFor="job_title">Job Title:</label>
                 <br />
                 <input
                   type="text"
@@ -85,11 +101,12 @@ function AddApplication() {
                   required
                   className="form-control"
                   onChange={(e) => handleChange(e)}
+                  value={application.job_title}
                 />
                 <br />
                 <br />
 
-                <label for="date_applied">Date Applied:</label>
+                <label htmlFor="date_applied">Date Applied:</label>
                 <br />
                 <input
                   type="date"
@@ -98,6 +115,7 @@ function AddApplication() {
                   required
                   className="form-control text-center"
                   onChange={(e) => handleChange(e)}
+                  value={application.date_applied}
                 />
                 <br />
                 <br />
@@ -110,23 +128,18 @@ function AddApplication() {
                     className="form-select"
                     required
                     onChange={(e) => handleChange(e)}
+                    value={application.status} // Make sure this value is bound to state
                   >
-                    <option value="applied" className="text-center">
-                      Applied
-                    </option>
-                    <option value="interviewed" className="text-center">
-                      Interviewed
-                    </option>
-                    <option value="rejected" className="text-center">
-                      Rejected
-                    </option>
+                    <option value="applied">Applied</option>
+                    <option value="interviewed">Interviewed</option>
+                    <option value="rejected">Rejected</option>
                   </select>
                 </div>
 
                 <br />
                 <br />
 
-                <label for="notes">Notes:</label>
+                <label htmlFor="notes">Notes:</label>
                 <br />
                 <textarea
                   id="notes"
@@ -135,6 +148,7 @@ function AddApplication() {
                   cols="50"
                   className="form-control"
                   onChange={(e) => handleChange(e)}
+                  value={application.notes}
                 ></textarea>
                 <br />
                 <br />
@@ -143,7 +157,6 @@ function AddApplication() {
                   type="submit"
                   value="Submit"
                   className="btn btn-success"
-                  onClick={(e) => addApplication(e)}
                 />
               </form>
             </div>
