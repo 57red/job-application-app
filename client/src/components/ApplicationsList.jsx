@@ -51,7 +51,7 @@ function ApplicationsList() {
             return (
               <div key={index} className="col-md-4">
                 <div
-                  className="card"
+                  className="card mt-5"
                   style={{
                     backgroundColor: `rgba(var(--bs-primary-rgb), 0.5)`,
                   }}
