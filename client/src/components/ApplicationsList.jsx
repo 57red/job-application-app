@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 // components
 import AddApplication from "./AddApplication";
+import EditApplication from "./EditApplication";
 
 function ApplicationsList() {
   const [applications, setApplications] = useState([]);
@@ -48,8 +49,13 @@ function ApplicationsList() {
               .split("T")[0];
 
             return (
-              <div key={index} className="col-md-4 mb-4">
-                <div className="card">
+              <div key={index} className="col-md-4">
+                <div
+                  className="card"
+                  style={{
+                    backgroundColor: `rgba(var(--bs-primary-rgb), 0.5)`,
+                  }}
+                >
                   <div className="card-header">{application.company_name}</div>
                   <ul className="list-group list-group-flush">
                     <li className="list-group-item">{application.job_title}</li>
@@ -58,7 +64,7 @@ function ApplicationsList() {
                     <li className="list-group-item">{application.notes}</li>
                   </ul>
                   <div className="card-body">
-                    <button className="btn btn-warning me-2">Edit</button>
+                    <EditApplication application={application} />
                     <button
                       className="btn btn-danger"
                       onClick={() => deleteApplication(application.id)}
